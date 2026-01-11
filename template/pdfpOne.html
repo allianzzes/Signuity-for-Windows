@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="/assets/css/pdfstyle.css">
+<title>Signuity - Offline Signature Verification Tool</title>
+
+<!-- PDF LIBRARIES -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+
+<div class="page" id="pdfPage">
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+
+        <!-- ================= HEADER ================= -->
+        <div class="header">
+            <div class="logo">
+                <img src="/images/pdf_logo.png" alt="Signuity Logo">
+            </div>
+
+            <div class="title-group">
+                <h1>signuity</h1>
+                <p>Offline Signature Verification Tool</p>
+            </div>
+
+            <div class="report-info">
+                <div class="report-info-item">
+                    <div class="label">REPORT ID</div>
+                    <div class="value" id="reportId">—</div>
+                </div>
+                <div class="report-info-item">
+                    <div class="label">DATE AND TIME</div>
+                    <div class="value" id="reportDate">—</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= SUMMARY ================= -->
+        <div class="summary-section">
+            <div class="summary-content">
+
+                <div class="circle-container">
+                    <svg width="220" height="220">
+                        <circle cx="110" cy="110" r="95" class="circle-bg"/>
+                        <circle cx="110" cy="110" r="95" class="circle-progress"/>
+                    </svg>
+                    <div class="circle-text">0%</div>
+                </div>
+
+                <div class="details">
+                    <div class="detail-row">
+                        <div>
+                            <div class="detail-label">REFERENCE IMAGES</div>
+                            <div class="detail-value" id="refCount">0</div>
+                        </div>
+                        <div>
+                            <div class="detail-label">QUESTIONED IMAGE</div>
+                            <div class="detail-value" id="questCount">0</div>
+                        </div>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-label">Confidence Score:</div>
+                        <div class="info-value" id="confidenceValue">0%</div>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-label">Status:</div>
+                        <div id="statusBadge" class="status-badge">UNKNOWN</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ================= SIGNATURES ================= -->
+        <div class="signature-section">
+            <h2>Signature</h2>
+
+            <div class="signature-content">
+
+                <!-- REFERENCES -->
+                <div class="references">
+                    <h3>References</h3>
+                    <div class="reference-grid">
+                        <div class="signature-box">
+                            <img id="pdf_ref_1">
+                            <div class="signature-label" id="label_ref_1"></div>
+                        </div>
+                        <div class="signature-box">
+                            <img id="pdf_ref_2">
+                            <div class="signature-label" id="label_ref_2"></div>
+                        </div>
+                        <div class="signature-box">
+                            <img id="pdf_ref_3">
+                            <div class="signature-label" id="label_ref_3"></div>
+                        </div>
+                        <div class="signature-box">
+                            <img id="pdf_ref_4">
+                            <div class="signature-label" id="label_ref_4"></div>
+                        </div>
+                        <div class="signature-box">
+                            <img id="pdf_ref_5">
+                            <div class="signature-label" id="label_ref_5"></div>
+                        </div>
+                        <div class="signature-box">
+                            <img id="pdf_ref_6">
+                            <div class="signature-label" id="label_ref_6"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTIONED -->
+                <div class="questioned">
+                    <h3>Questioned Signature</h3>
+                    <div class="questioned-box">
+                        <img id="pdf_questioned">
+                        <div class="signature-label" id="label_questioned"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ================= FOOTER ================= -->
+    <div class="footer">
+        <div>Page 1 | Generated by Signuity for research and demonstration purposes.</div>
+        <div>© Foresight 2026 Signuity | www.signuity.com</div>
+    </div>
+
+</div>
+
+<!-- ================= SCRIPT ================= -->
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+
+    /* ===== HELPER: extract filename ===== */
+    function extractFileName(src, fallback) {
+        if (!src) return fallback || "";
+        if (src.startsWith("data:")) return fallback || "uploaded_image.png";
+        return src.split("/").pop().split("?")[0];
+    }
+
+    /* ===== LOAD IMAGES ===== */
+    const refs = JSON.parse(localStorage.getItem("reference_images")) || [];
+    const questioned = localStorage.getItem("question_image");
+
+    refs.forEach((src, i) => {
+        const img = document.getElementById(`pdf_ref_${i + 1}`);
+        const label = document.getElementById(`label_ref_${i + 1}`);
+
+        if (img && src) {
+            img.src = src;
+            if (label) label.textContent = extractFileName(src, `reference_${i + 1}.png`);
+        }
+    });
+
+    if (questioned) {
+        const qImg = document.getElementById("pdf_questioned");
+        const qLabel = document.getElementById("label_questioned");
+
+        qImg.src = questioned;
+        qLabel.textContent = extractFileName(questioned, "questioned.png");
+    }
+
+    /* ===== REPORT DATA ===== */
+    const report = JSON.parse(localStorage.getItem("report_data")) || {};
+
+    document.getElementById("refCount").textContent = report.referenceCount || refs.length;
+    document.getElementById("questCount").textContent = report.questionedCount || 1;
+    document.getElementById("reportId").textContent = report.reportId || "N/A";
+    document.getElementById("reportDate").textContent = report.reportDate || "N/A";
+
+    const score = report.confidenceScore || 0;
+
+    document.querySelector(".circle-text").textContent = score + "%";
+    document.getElementById("confidenceValue").textContent = score + "%";
+
+    /* ===== PROGRESS CIRCLE ===== */
+    const circle = document.querySelector(".circle-progress");
+    const radius = 95;
+    const circumference = 2 * Math.PI * radius;
+
+    circle.style.strokeDasharray = circumference;
+    circle.style.strokeDashoffset =
+        circumference - (score / 100) * circumference;
+
+    /* ===== STATUS ===== */
+    const badge = document.getElementById("statusBadge");
+    const status = (report.status || "UNKNOWN").toUpperCase();
+    badge.textContent = status;
+    badge.className = "status-badge " + status.toLowerCase();
+
+    /* ===== GENERATE PDF ===== */
+    await new Promise(r => setTimeout(r, 700));
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF("p", "mm", "a4");
+
+    const canvas = await html2canvas(document.getElementById("pdfPage"), {
+        scale: 2,
+        useCORS: true
+    });
+
+    const imgData = canvas.toDataURL("image/png");
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+    pdf.save(`Signuity_Report_${report.reportId || Date.now()}.pdf`);
+
+    window.close();
+});
+</script>
+
+</body>
+</html>

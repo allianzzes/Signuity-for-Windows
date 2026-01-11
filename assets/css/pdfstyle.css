@@ -1,0 +1,311 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    background: #fff;
+}
+
+/* ================= PAGE ================= */
+
+.page {
+    width: 210mm;
+    height: 297mm;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ================= CONTAINER ================= */
+
+.container {
+    flex: 1;
+    padding: 28px 40px; /* FIXED left/right padding */
+}
+
+/* ================= HEADER ================= */
+
+.header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.logo img {
+    width: 46px;
+    height: 46px;
+    object-fit: contain;
+}
+
+.title-group h1 {
+    font-size: 26px;
+    font-weight: 600;
+    color: #111;
+}
+
+.title-group p {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.report-info {
+    display: flex;
+    gap: 40px;
+}
+
+.report-info-item {
+    text-align: right;
+}
+
+.report-info .label {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #6b7280;
+    font-weight: 600;
+}
+
+.report-info .value {
+    font-size: 12px;
+    color: #111;
+}
+
+/* ================= SUMMARY CARD ================= */
+
+.summary-section {
+    margin: 32px 0;
+    padding: 32px 36px;
+    background: linear-gradient(135deg, #f0fdfa, #ffffff);
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+}
+
+.summary-content {
+    display: flex;
+    align-items: center;
+    gap: 70px;
+}
+
+.circle-container {
+    position: relative;
+    width: 210px;
+    height: 210px;
+}
+
+.circle-bg {
+    fill: none;
+    stroke: #d1fae5;
+    stroke-width: 26;
+}
+
+.circle-progress {
+    fill: none;
+    stroke: #4fd1c5;
+    stroke-width: 26;
+    stroke-linecap: round;
+    transform: rotate(-90deg);
+    transform-origin: center;
+}
+
+.circle-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 44px;
+    font-weight: 300;
+    color: #4fd1c5;
+}
+
+.details {
+    flex: 1;
+}
+
+.detail-row {
+    display: flex;
+    gap: 90px;
+    margin-bottom: 26px;
+}
+
+.detail-label {
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #6b7280;
+    font-weight: 600;
+}
+
+.detail-value {
+    font-size: 40px;
+    font-weight: 300;
+    color: #4fd1c5;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.info-label,
+.info-value {
+    font-size: 13px;
+    color: #111;
+}
+
+.status-badge {
+    padding: 6px 18px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+.status-badge.genuine { background: #10b981; }
+.status-badge.forged  { background: #ef4444; }
+
+/* ================= SIGNATURES ================= */
+
+.signature-section {
+    margin-top: 20px;
+}
+
+.signature-section h2 {
+    font-size: 22px;
+    margin-bottom: 24px;
+}
+
+.signature-content {
+    display: flex;
+    gap: 60px;
+}
+
+/* ================= REFERENCES ================= */
+
+.references {
+    flex: 1;
+}
+
+.references h3,
+.questioned h3 {
+    font-size: 14px;
+    margin-bottom: 18px;
+}
+
+.reference-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 140px); /* ≈ 139x139 */
+    gap: 22px;
+}
+
+
+/* === CLEAN WHITE BOXES === */
+.signature-box {
+    width: 140px;
+    height: 140px;
+
+    border: 2px solid #10b981;  
+    border-radius: 14px;
+    background: #ffffff;
+
+    padding: 10px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+
+/* PERFECT IMAGE FIT */
+.signature-box img {
+    max-width: 100%;
+    max-height: 85px;
+    object-fit: contain;
+}
+
+.signature-label {
+    margin-top: 6px;
+    font-size: 10px;
+    color: #6b7280;
+    text-align: center;
+}
+
+/* ================= QUESTIONED ================= */
+
+.questioned {
+    width: 360px;
+}
+
+.questioned-box {
+    width: 140px;
+    height: 140px;
+
+    border: 2px solid #facc15; 
+    border-radius: 14px;
+    background: #fffdf5;
+
+    padding: 10px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+
+
+.questioned-box img {
+    max-width: 100%;
+    max-height: 85px;     
+    object-fit: contain;
+
+    border-radius: 0;      
+    padding: 0;            
+    box-shadow: none;      
+    background: none;
+}
+
+
+
+.reference-grid,
+.signature-box,
+.questioned-box {
+    page-break-inside: avoid;
+}
+
+
+/* ================= FOOTER ================= */
+
+.footer {
+    background: #2a2a2a;
+    color: #bdbdbd;
+    padding: 16px 45px;
+    font-size: 10.5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* ================= PRINT ================= */
+
+@media print {
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
