@@ -44,7 +44,7 @@ Signuity is a desktop application that verifies whether a questioned signature m
 - Use **Browse** or drag-and-drop. Supported formats: **JPG**, **PNG** (max 10 MB per file).
 - The counter should show **Uploaded: 4/4**.
 - A sample signatures from CEDAR dataset are uploaded and grouped in the folder above.
-- Naming convention: original_[writernum]_[signaturenum], ex: original_1_2 and original_1_3 are from the same signer. The same applies with the forgeries too.
+- Naming convention: `original_[writernum]_[signaturenum].png` , ex: `original_1_2.png` and `original_1_3.png` are from the same signer. The same applies with the forgeries too.
 
 ### 3. Upload the questioned signature
 
